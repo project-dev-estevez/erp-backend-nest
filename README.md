@@ -3,23 +3,12 @@
 </p>
 
 <p align="center">
-  Cascarón para crear backends en NestJS. Con ❤️ para <b>Estevez.Jor</b>
+  Backend del ERP en NestJS. Con ❤️ para <b>Estevez.Jor</b>
 </p>
 
 # Descripción General
 
-Este repositorio sirve como un cascarón para proyectos de [NestJS](https://github.com/nestjs/nest). Proporciona una configuración inicial que incluye todas las dependencias y configuraciones necesarias para comenzar a desarrollar una aplicación con NestJS de manera eficiente.
-
-El cascarón incluye:
-
-- Configuración básica de NestJS
-- Scripts de inicio y desarrollo
-- Configuración de TypeScript
-- Configuración de pruebas unitarias
-
-Este cascarón está diseñado para ayudarte a acelerar el proceso de inicio de un nuevo proyecto, evitando la necesidad de configurar repetidamente los mismos ajustes para cada nuevo proyecto de NestJS.
-
-Para comenzar a usar este cascarón, simplemente clona el repositorio, instala las dependencias con `yarn install` y comienza a desarrollar con `yarn start:dev`.
+...
 
 ## Instalaciones Necesarias
 
