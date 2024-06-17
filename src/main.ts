@@ -8,6 +8,7 @@ import { AppModule } from './app.module';
 async function main() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+  app.enableCors();
   const port = configService.get<number>('port');
   const logger = new Logger('Main');
 
