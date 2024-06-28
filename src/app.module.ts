@@ -5,6 +5,7 @@ import { SeedModule } from './seed/seed.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonModule } from './common/common.module';
+import { DirectionsModule } from './directions/directions.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { CommonModule } from './common/common.module';
     SeedModule,
     AuthModule,
     CommonModule,
+    DirectionsModule,
   ]
 })
 export class AppModule {}

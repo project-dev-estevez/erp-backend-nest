@@ -52,7 +52,7 @@ export class User {
     @BeforeUpdate()
     transformFields() {
         this.email = this.email.toLowerCase().trim();
-        this.fullName = this.capitalize(this.fullName);
+        this.fullName = this.capitalize(this.fullName).trim();
     }
 
     private capitalize(str: string) {
