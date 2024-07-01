@@ -45,6 +45,15 @@ export const initialData: SeedData = {
             fullName: 'Elizabeth Gonzalez Herrera',
             password: bcrypt.hashSync('Estevez.director*', 10),
             roles: ['director']
+        },
+
+        // Gerentes
+        {
+            email: 'gerente.estevez@estevezjor.mx',
+            fullName: 'Gerente Gerente',
+            password: bcrypt.hashSync('Estevez.gerente*', 10),
+            roles: ['manager']
         }
+
     ]
 };

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateDirectionDto } from './dto/create-direction.dto';
 import { UpdateDirectionDto } from './dto/update-direction.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -35,20 +35,44 @@ export class DirectionsService {
 
   }
 
-  findAll() {
-    return `This action returns all directions`;
+  // TODO: Implement pagination
+  async findAll() {
+    const [results, total] = await this.directionRepository.findAndCount({});
+    return { results, total };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} direction`;
+  async findOne( id: string ) {
+
+    const direction = await this.directionRepository.findOneBy({ id });
+    if( !direction )
+      throw new NotFoundException(`Direction with id ${id} not found`);
+
+    return direction;
   }
 
-  update(id: number, updateDirectionDto: UpdateDirectionDto) {
-    return `This action updates a #${id} direction`;
+  async update(id: string, updateDirectionDto: UpdateDirectionDto) {
+
+    const direction = await this.directionRepository.preload({
+      id,
+      ...updateDirectionDto
+    });
+
+    if( !direction )
+      throw new NotFoundException(`Direction with id ${id} not found`);
+
+    try {
+      await this.directionRepository.save(direction);
+      return direction;
+    } catch (error) {
+      this.handleDBErrors(error);
+    }
+
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} direction`;
+  async remove(id: string) {
+
+    await this.findOne( id );
+    await this.directionRepository.update(id, { state: false });
   }
 
 

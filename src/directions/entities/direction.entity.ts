@@ -15,6 +15,11 @@ export class Direction {
     })
     isGeneralDirection: boolean;
 
+    @Column('bool', {
+        default: true
+    })
+    state: boolean;
+
     @CreateDateColumn({
         type: 'timestamp', 
         default: () => 'CURRENT_TIMESTAMP'
