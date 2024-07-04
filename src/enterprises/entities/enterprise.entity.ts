@@ -1,10 +1,9 @@
 import { User } from "src/auth/entities/user.entity";
-import { Enterprise } from "src/enterprises/entities/enterprise.entity";
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Direction } from "src/directions/entities/direction.entity";
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-
-@Entity('directions')
-export class Direction {
+@Entity('enterprises')
+export class Enterprise {
 
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -12,27 +11,17 @@ export class Direction {
     @Column('text')
     name: string;
 
-    @Column('bool', {
-        default: false
-    })
-    isGeneralDirection: boolean;
-
-    @Column('bool', {
-        default: true
-    })
-    state: boolean;
-
     @ManyToOne(
-        () => Enterprise,
-        enterprise => enterprise.id
+        () => User, 
+        user => user.enterprises
     )
-    enterprise: Enterprise;
+    ceo: User;
 
-    @ManyToOne(
-        () => User,
-        user => user.id
+    @OneToMany(
+        () => Direction,
+        direction => direction.id
     )
-    director: User;
+    directions: Direction[];
 
     @CreateDateColumn({
         type: 'timestamp', 

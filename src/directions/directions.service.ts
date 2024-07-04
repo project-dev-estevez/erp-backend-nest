@@ -17,18 +17,18 @@ export class DirectionsService {
 
   async create(createDirectionDto: CreateDirectionDto) {
 
-    const { name, isGeneralDirection = false } = createDirectionDto;
+    const { enterpriseId, directorId } = createDirectionDto;
 
     try {
       const direction = this.directionRepository.create({
-        name,
-        isGeneralDirection
+        ...createDirectionDto,
+        enterprise: { id: enterpriseId },
+        director: { id: directorId }
       });
-
+    
       await this.directionRepository.save(direction);
-
+    
       return direction;
-
     } catch (error) {
       this.handleDBErrors(error);
     }

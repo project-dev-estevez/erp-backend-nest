@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsOptional, IsString, Max, MaxLength, Min, MinLength } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID, Max, MaxLength, Min, MinLength } from "class-validator";
 
 export class CreateDirectionDto {
 
@@ -11,5 +11,13 @@ export class CreateDirectionDto {
     @IsOptional()
     @IsBoolean()
     isGeneralDirection?: boolean;
+
+    @IsUUID()
+    @IsNotEmpty()
+    enterpriseId: string;
+
+    @IsUUID()
+    @IsNotEmpty()
+    directorId: string;
 
 }

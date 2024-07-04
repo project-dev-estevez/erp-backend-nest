@@ -1,5 +1,7 @@
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { ResetToken } from "./reset-token.entity";
+import { Enterprise } from "src/enterprises/entities/enterprise.entity";
+import { Direction } from "src/directions/entities/direction.entity";
 
 @Entity('users')
 export class User {
@@ -34,6 +36,18 @@ export class User {
         resetToken => resetToken.user
     )
     resetToken: ResetToken;
+
+    @OneToMany(
+        () => Enterprise, 
+        enterprise => enterprise.ceo
+    )
+    enterprises: Enterprise[];
+
+    @OneToMany(
+        () => Direction,
+        direction => direction.director
+    )
+    directions: Direction[];
 
     @CreateDateColumn({
         type: 'timestamp', 
