@@ -4,6 +4,7 @@ import { User } from 'src/auth/entities/user.entity';
 import { Repository } from 'typeorm';
 import { initialData } from './data/seed-data';
 import { Enterprise } from '../enterprises/entities/enterprise.entity';
+import { Direction } from 'src/directions/entities/direction.entity';
 
 @Injectable()
 export class SeedService {
@@ -12,7 +13,9 @@ export class SeedService {
     @InjectRepository( User ) 
     private readonly userRepository: Repository<User>,
     @InjectRepository( Enterprise )
-    private readonly enterpriseRepository: Repository<Enterprise>
+    private readonly enterpriseRepository: Repository<Enterprise>,
+    @InjectRepository( Direction )
+    private readonly directionRepository: Repository<Direction>
   ) {}
   
   async runSeeds() {
@@ -65,9 +68,19 @@ export class SeedService {
 
   private async deleteTables() {
 
-    const queryBuilder = this.userRepository.createQueryBuilder();
-    await queryBuilder.delete()
-                      .where({})
-                      .execute();
+    const queryBuilderDirections = this.directionRepository.createQueryBuilder();
+    await queryBuilderDirections.delete()
+                                .where({})
+                                .execute();
+
+    const queryBuilderEnterprise = this.enterpriseRepository.createQueryBuilder();
+    await queryBuilderEnterprise.delete()
+                                .where({})
+                                .execute();
+
+    const queryBuilderUsers = this.userRepository.createQueryBuilder();
+    await queryBuilderUsers.delete()
+                           .where({})
+                           .execute();
   }
 }

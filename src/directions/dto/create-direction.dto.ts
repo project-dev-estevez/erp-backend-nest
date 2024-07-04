@@ -1,4 +1,5 @@
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID, Max, MaxLength, Min, MinLength } from "class-validator";
+import { IsUniqueGeneralDirection } from "../decorators/is-unique-general-direction.decorator";
 
 export class CreateDirectionDto {
 
@@ -10,6 +11,7 @@ export class CreateDirectionDto {
 
     @IsOptional()
     @IsBoolean()
+    @IsUniqueGeneralDirection()
     isGeneralDirection?: boolean;
 
     @IsUUID()
