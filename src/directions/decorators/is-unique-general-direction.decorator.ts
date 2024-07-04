@@ -6,7 +6,7 @@ import { Repository } from "typeorm";
 import { CreateDirectionDto } from "../dto/create-direction.dto";
 
 
-export function IsUniqueGeneralDirection( validationOptions?: ValidationOptions ) {
+export function IsUniqueGeneralDirection( option:string, validationOptions?: ValidationOptions ) {
   return function (object: any, propertyName: string) {
     registerDecorator({
       target: object.constructor,
@@ -15,7 +15,8 @@ export function IsUniqueGeneralDirection( validationOptions?: ValidationOptions 
         ...validationOptions,
         message: 'Ya hay una dirección general registrada en la empresa.'
       },
-      validator: CustomGeneralDirectionvalidation
+      validator: CustomGeneralDirectionvalidation,
+      constraints: [option]
     });
   }
 }
@@ -30,12 +31,24 @@ export class CustomGeneralDirectionvalidation implements ValidatorConstraintInte
 
   async validate(value: boolean, args: ValidationArguments): Promise<boolean> {
 
+    const [ option ] = args.constraints;
+
     const object = args.object as CreateDirectionDto;
     const enterpriseId = object.enterpriseId;
 
     if( !value )
       return true;
 
+    if( option === 'create' ) {
+      return this.validateCreate(enterpriseId);
+    }
+
+    if( option === 'update' ) {
+      return this.validateUpdate();
+    }
+  }
+
+  async validateCreate(enterpriseId: string): Promise<boolean> {
     const existingDirection = await this.directionRepository.findOne({
       where: {
         isGeneralDirection: true,
@@ -44,5 +57,9 @@ export class CustomGeneralDirectionvalidation implements ValidatorConstraintInte
     });
 
     return !existingDirection;
+  }
+
+  async validateUpdate(): Promise<boolean> {
+    return true;
   }
 }

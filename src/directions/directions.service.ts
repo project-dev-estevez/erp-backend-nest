@@ -4,6 +4,8 @@ import { UpdateDirectionDto } from './dto/update-direction.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Direction } from './entities/direction.entity';
 import { Repository } from 'typeorm';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { handleDBErrors } from 'src/common/helpers/db-error-handler.helper';
 
 @Injectable()
 export class DirectionsService {
@@ -30,20 +32,31 @@ export class DirectionsService {
     
       return direction;
     } catch (error) {
-      this.handleDBErrors(error);
+      handleDBErrors( error, this.logger );
     }
 
   }
 
-  // TODO: Implement pagination
-  async findAll() {
-    const [results, total] = await this.directionRepository.findAndCount({});
+  async findAll( paginationDto: PaginationDto ) {
+
+    const { limit = 10, offset = 0 } = paginationDto;
+
+    const [results, total] = await this.directionRepository.findAndCount({
+      where: { state: true },
+      relations: ['enterprise', 'director'],
+      take: limit,
+      skip: offset
+    });
     return { results, total };
   }
 
   async findOne( id: string ) {
 
-    const direction = await this.directionRepository.findOneBy({ id });
+    const direction = await this.directionRepository.findOne({
+      where: { id, state: true },
+      relations: ['enterprise', 'director'],
+    });
+
     if( !direction )
       throw new NotFoundException(`Direction with id ${id} not found`);
 
@@ -64,7 +77,7 @@ export class DirectionsService {
       await this.directionRepository.save(direction);
       return direction;
     } catch (error) {
-      this.handleDBErrors(error);
+      handleDBErrors( error, this.logger );
     }
 
   }
@@ -75,13 +88,4 @@ export class DirectionsService {
     await this.directionRepository.update(id, { state: false });
   }
 
-
-  private handleDBErrors(error: any): never {
-    
-    if (error.code === '23505')
-      throw new BadRequestException( error.detail );
-
-    this.logger.error(error);
-    throw new InternalServerErrorException('Please check server logs for more details');
-  }
 }

@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query } from '@nestjs/common';
 import { DirectionsService } from './directions.service';
 import { CreateDirectionDto } from './dto/create-direction.dto';
 import { UpdateDirectionDto } from './dto/update-direction.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Auth } from 'src/auth/decorators';
 import { ValidRoles } from 'src/auth/interfaces';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @ApiTags('Directions')
 @Controller('directions')
@@ -19,8 +20,8 @@ export class DirectionsController {
 
   @Get()
   @Auth( ValidRoles.CEO, ValidRoles.GENERAL_DIRECTOR )
-  findAll() {
-    return this.directionsService.findAll();
+  findAll( @Query() paginationDto: PaginationDto ) {
+    return this.directionsService.findAll( paginationDto );
   }
 
   @Get(':id')

@@ -11,7 +11,7 @@ export class CreateDirectionDto {
 
     @IsOptional()
     @IsBoolean()
-    @IsUniqueGeneralDirection()
+    @IsUniqueGeneralDirection('create')
     isGeneralDirection?: boolean;
 
     @IsUUID()
