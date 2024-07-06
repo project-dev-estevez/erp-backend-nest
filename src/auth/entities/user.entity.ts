@@ -20,16 +20,16 @@ export class User {
     @Column('text')
     fullName: string;
 
-    @Column('bool', {
-        default: true
-    })
-    isActive: boolean;
-
     @Column('text', {
         array: true,
         default: ['user']
     })
     roles: string[];
+
+    @Column('bool', {
+        default: true
+    })
+    state: boolean;
 
     @ManyToOne(
         () => ResetToken, 

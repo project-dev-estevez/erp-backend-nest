@@ -11,6 +11,11 @@ export class Enterprise {
     @Column('text')
     name: string;
 
+    @Column('bool', {
+        default: true
+    })
+    state: boolean;
+
     @ManyToOne(
         () => User, 
         user => user.enterprises

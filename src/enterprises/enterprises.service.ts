@@ -1,15 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { Enterprise } from './entities/enterprise.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class EnterprisesService {
+
+  constructor(
+    @InjectRepository(Enterprise)
+    private readonly directionRepository: Repository<Enterprise>
+  ) {}
+
   create(createEnterpriseDto: CreateEnterpriseDto) {
     return 'This action adds a new enterprise';
   }
 
-  findAll() {
-    return `This action returns all enterprises`;
+  async findAll( paginationDto: PaginationDto ) {
+
+    const { limit = 10, offset = 0 } = paginationDto;
+
+    const [results, total] = await this.directionRepository.findAndCount({
+      where: { state: true },
+      relations: ['ceo'],
+      take: limit,
+      skip: offset
+    });
+    return { results, total };
+
   }
 
   findOne(id: number) {

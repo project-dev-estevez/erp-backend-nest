@@ -1,20 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { EnterprisesService } from './enterprises.service';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
+import { Auth } from 'src/auth/decorators';
+import { ValidRoles } from 'src/auth/interfaces';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Controller('enterprises')
 export class EnterprisesController {
   constructor(private readonly enterprisesService: EnterprisesService) {}
 
   @Post()
+  @Auth( ValidRoles.CEO )
   create(@Body() createEnterpriseDto: CreateEnterpriseDto) {
     return this.enterprisesService.create(createEnterpriseDto);
   }
 
   @Get()
-  findAll() {
-    return this.enterprisesService.findAll();
+  @Auth( ValidRoles.CEO, ValidRoles.GENERAL_DIRECTOR )
+  findAll( @Query() paginationDto: PaginationDto ) {
+    return this.enterprisesService.findAll( paginationDto );
   }
 
   @Get(':id')
