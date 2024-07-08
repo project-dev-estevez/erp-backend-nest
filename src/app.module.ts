@@ -8,6 +8,7 @@ import { CommonModule } from './common/common.module';
 import { DirectionsModule } from './directions/directions.module';
 import { EnterprisesModule } from './enterprises/enterprises.module';
 import { DirectorsModule } from './directors/directors.module';
+import { DepartmentsModule } from './departments/departments.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { DirectorsModule } from './directors/directors.module';
     DirectionsModule,
     EnterprisesModule,
     DirectorsModule,
+    DepartmentsModule,
   ]
 })
 export class AppModule {}
