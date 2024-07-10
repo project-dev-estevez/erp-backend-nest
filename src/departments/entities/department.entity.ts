@@ -1,18 +1,13 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('departments')
 export class Department {
 
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    id!: string;
 
     @Column('text')
-    name: string;
-
-    @Column('bool', {
-        default: true
-    })
-    state: boolean;
+    name!: string;
 
     // TODO: managerId
     // TODO: directionId
@@ -21,12 +16,18 @@ export class Department {
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP'
     })
-    createdAt: Date;
+    createdAt!: Date;
 
     @UpdateDateColumn({
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP'
     })
-    updatedAt: Date;
+    updatedAt!: Date;
+
+    @DeleteDateColumn({
+        type: 'timestamp',
+        default: null
+    })
+    deletedAt?: Date;
 
 }
