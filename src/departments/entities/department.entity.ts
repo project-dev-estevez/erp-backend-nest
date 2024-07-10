@@ -9,6 +9,11 @@ export class Department {
     @Column('text')
     name: string;
 
+    @Column('bool', {
+        default: true
+    })
+    state: boolean;
+
     // TODO: managerId
     // TODO: directionId
 

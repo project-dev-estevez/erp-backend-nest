@@ -36,6 +36,7 @@ export class DepartmentsService {
     const { limit = 10, offset = 0 } = paginationDto;
 
     const [ results, total ] = await this.departmentRepository.findAndCount({
+      where: { state: true },
       take: limit,
       skip: offset
     });
@@ -50,7 +51,7 @@ export class DepartmentsService {
   async findOne(id: string) {
 
     const department = await this.departmentRepository.findOne({
-      where: { id }
+      where: { id, state: true }
     });
 
     if( !department )
@@ -81,7 +82,9 @@ export class DepartmentsService {
   async remove(id: string) {
     
     await this.findOne( id );
-    await this.departmentRepository.delete( id );
+    // await this.departmentRepository.delete( id );
+    // await this.departmentRepository.softDelete( id );
+    await this.departmentRepository.update({ id }, { state: false });
 
   }
   
