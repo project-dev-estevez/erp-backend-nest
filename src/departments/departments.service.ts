@@ -19,10 +19,16 @@ export class DepartmentsService {
 
   async create(createDepartmentDto: CreateDepartmentDto) {
 
-    const { name } = createDepartmentDto;
+    const { name, directionId, managerId } = createDepartmentDto;
 
     try {
-      const department = this.departmentRepository.create({ name });
+      
+      const department = this.departmentRepository.create({
+        name,
+        direction: { id: directionId },
+        manager: managerId ? { id: managerId } : null
+      });
+
       await this.departmentRepository.save( department );
       return department;
     } catch (error) {
@@ -36,6 +42,7 @@ export class DepartmentsService {
     const { limit = 10, offset = 0 } = paginationDto;
 
     const [ results, total ] = await this.departmentRepository.findAndCount({
+      relations: ['direction', 'manager'],
       take: limit,
       skip: offset
     });
@@ -50,7 +57,8 @@ export class DepartmentsService {
   async findOne(id: string) {
 
     const department = await this.departmentRepository.findOne({
-      where: { id }
+      where: { id },
+      relations: ['direction', 'manager']
     });
 
     if( !department )

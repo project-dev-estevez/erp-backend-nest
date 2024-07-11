@@ -2,6 +2,7 @@ import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne
 import { ResetToken } from "./reset-token.entity";
 import { Enterprise } from "src/enterprises/entities/enterprise.entity";
 import { Direction } from "src/directions/entities/direction.entity";
+import { Department } from "src/departments/entities/department.entity";
 
 @Entity('users')
 export class User {
@@ -48,6 +49,12 @@ export class User {
         direction => direction.director
     )
     directions: Direction[];
+
+    @OneToMany(
+        () => Department,
+        department => department.manager
+    )
+    department: Department[];
 
     @CreateDateColumn({
         type: 'timestamp', 

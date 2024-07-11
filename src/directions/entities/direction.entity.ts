@@ -1,4 +1,5 @@
 import { User } from "src/auth/entities/user.entity";
+import { Department } from "src/departments/entities/department.entity";
 import { Enterprise } from "src/enterprises/entities/enterprise.entity";
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -33,6 +34,12 @@ export class Direction {
         user => user.id
     )
     director: User;
+
+    @ManyToOne(
+        () => Direction,
+        direction => direction.id
+    )
+    department: Department[];
 
     @CreateDateColumn({
         type: 'timestamp', 

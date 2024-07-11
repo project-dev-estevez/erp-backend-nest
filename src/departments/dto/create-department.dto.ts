@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
+import { IsNotEmpty, IsString, IsUUID, MaxLength, MinLength } from "class-validator";
 
 
 export class CreateDepartmentDto {
@@ -7,6 +7,13 @@ export class CreateDepartmentDto {
     @IsNotEmpty()
     @MinLength(3)
     @MaxLength(150)
-    name: string;
+    name!: string;
+
+    @IsUUID()
+    @IsNotEmpty()
+    directionId!: string;
+
+    @IsUUID()
+    managerId?: string;
 
 }

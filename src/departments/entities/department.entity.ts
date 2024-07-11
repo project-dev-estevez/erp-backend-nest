@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from "src/auth/entities/user.entity";
+import { Direction } from "src/directions/entities/direction.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('departments')
 export class Department {
@@ -9,8 +11,17 @@ export class Department {
     @Column('text')
     name!: string;
 
-    // TODO: managerId
-    // TODO: directionId
+    @ManyToOne(
+        () => User,
+        user => user.id
+    )
+    manager?: User;
+
+    @ManyToOne(
+        () => Direction,
+        direction => direction.id
+    )
+    direction!: Direction;
 
     @CreateDateColumn({
         type: 'timestamp',
