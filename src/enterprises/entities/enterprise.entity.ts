@@ -1,6 +1,6 @@
 import { User } from "src/auth/entities/user.entity";
 import { Direction } from "src/directions/entities/direction.entity";
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('enterprises')
 export class Enterprise {
@@ -10,11 +10,6 @@ export class Enterprise {
 
     @Column('text')
     name: string;
-
-    @Column('bool', {
-        default: true
-    })
-    state: boolean;
 
     @ManyToOne(
         () => User, 
@@ -40,6 +35,12 @@ export class Enterprise {
         onUpdate: 'CURRENT_TIMESTAMP'
     })
     updatedAt: Date;
+
+    @DeleteDateColumn({
+        type: 'timestamp',
+        default: null
+    })
+    deletedAt?: Date;
 
     @BeforeInsert()
     @BeforeUpdate()
