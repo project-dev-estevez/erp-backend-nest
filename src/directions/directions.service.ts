@@ -83,9 +83,10 @@ export class DirectionsService {
   }
 
   async remove(id: string) {
-
-    await this.findOne( id );
-    await this.directionRepository.update(id, { state: false });
+    
+    const deleteResponse = await this.directionRepository.softDelete( id );
+    if( !deleteResponse.affected )
+      throw new NotFoundException(`Direction with ID:${id} not found`);
   }
 
 }
