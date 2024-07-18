@@ -1,7 +1,7 @@
 import { User } from "src/auth/entities/user.entity";
 import { Department } from "src/departments/entities/department.entity";
 import { Enterprise } from "src/enterprises/entities/enterprise.entity";
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 
 @Entity('directions')
@@ -53,6 +53,12 @@ export class Direction {
         onUpdate: 'CURRENT_TIMESTAMP'
     })
     updatedAt: Date;
+
+    @DeleteDateColumn({
+        type: 'timestamp',
+        default: null
+    })
+    deletedAt?: Date;
 
     @BeforeInsert()
     @BeforeUpdate()
