@@ -5,7 +5,9 @@ import { UpdateDirectorDto } from './dto/update-director.dto';
 import { Auth } from 'src/auth/decorators';
 import { ValidRoles } from 'src/auth/interfaces';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Directors')
 @Controller('directors')
 export class DirectorsController {
   constructor(private readonly directorsService: DirectorsService) {}

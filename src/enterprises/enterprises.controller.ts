@@ -5,7 +5,9 @@ import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
 import { Auth } from 'src/auth/decorators';
 import { ValidRoles } from 'src/auth/interfaces';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Enterprises')
 @Controller('enterprises')
 export class EnterprisesController {
   constructor(private readonly enterprisesService: EnterprisesService) {}

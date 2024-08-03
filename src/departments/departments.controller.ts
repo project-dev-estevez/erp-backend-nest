@@ -3,7 +3,9 @@ import { DepartmentsService } from './departments.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Departments')
 @Controller('departments')
 export class DepartmentsController {
 

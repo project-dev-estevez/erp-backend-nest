@@ -48,7 +48,7 @@ export class DepartmentsService {
     });
 
     return {
-      data: results,
+      results,
       total
     };
 
