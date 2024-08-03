@@ -14,7 +14,7 @@ export class EnterprisesService {
 
   constructor(
     @InjectRepository(Enterprise)
-    private readonly directionRepository: Repository<Enterprise>
+    private readonly enterpriseRepository: Repository<Enterprise>
   ) {}
 
   async create(createEnterpriseDto: CreateEnterpriseDto) {
@@ -23,12 +23,12 @@ export class EnterprisesService {
 
     try{
 
-      const enterprise = this.directionRepository.create({
+      const enterprise = this.enterpriseRepository.create({
         name,
         ceo: { id: ceoId }
       });
 
-      await this.directionRepository.save( enterprise );
+      await this.enterpriseRepository.save( enterprise );
       return enterprise;
     }catch (error) {
       return handleDBErrors(error, this.logger);
@@ -40,7 +40,7 @@ export class EnterprisesService {
 
     const { limit = 10, offset = 0 } = paginationDto;
 
-    const [results, total] = await this.directionRepository.findAndCount({
+    const [results, total] = await this.enterpriseRepository.findAndCount({
       relations: ['ceo'],
       take: limit,
       skip: offset
@@ -51,7 +51,7 @@ export class EnterprisesService {
 
   async findOne(id: string) {
     
-    const enterprise = await this.directionRepository.findOne({
+    const enterprise = await this.enterpriseRepository.findOne({
       where: { id },
       relations: ['ceo']
     });
@@ -60,7 +60,7 @@ export class EnterprisesService {
       throw new NotFoundException(`Enterprise with ID:${id} not found`);
 
     try{
-      await this.directionRepository.save( enterprise );
+      await this.enterpriseRepository.save( enterprise );
       return enterprise;
     } catch (error) {
       return handleDBErrors(error, this.logger);
@@ -69,7 +69,7 @@ export class EnterprisesService {
 
   async update(id: string, updateEnterpriseDto: UpdateEnterpriseDto) {
     
-    const enterprise = await this.directionRepository.preload({
+    const enterprise = await this.enterpriseRepository.preload({
       id,
       ...updateEnterpriseDto
     });
@@ -78,7 +78,7 @@ export class EnterprisesService {
       throw new NotFoundException(`Enterprise with ID:${id} not found`);
 
     try {
-      await this.directionRepository.save( enterprise );
+      await this.enterpriseRepository.save( enterprise );
       return enterprise;
     } catch (error) {
       return handleDBErrors(error, this.logger);
@@ -87,7 +87,7 @@ export class EnterprisesService {
 
   async remove(id: string) {
     
-    const deleteResponse = await this.directionRepository.softDelete( id );
+    const deleteResponse = await this.enterpriseRepository.softDelete( id );
 
     if( !deleteResponse.affected )
       throw new NotFoundException(`Enterprise whit ID:${id} not found`);

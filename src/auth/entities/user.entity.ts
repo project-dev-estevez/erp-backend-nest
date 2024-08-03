@@ -1,4 +1,4 @@
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { ResetToken } from "./reset-token.entity";
 import { Enterprise } from "src/enterprises/entities/enterprise.entity";
 import { Direction } from "src/directions/entities/direction.entity";
@@ -68,6 +68,12 @@ export class User {
         onUpdate: 'CURRENT_TIMESTAMP'
     })
     updatedAt: Date;
+
+    @DeleteDateColumn({
+        type: 'timestamp',
+        default: null
+    })
+    deletedAt?: Date;
 
     @BeforeInsert()
     @BeforeUpdate()
