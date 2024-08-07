@@ -30,6 +30,7 @@ export class ManagersController {
   }
 
   @Patch(':id')
+  @Auth( ValidRoles.CEO, ValidRoles.GENERAL_DIRECTOR, ValidRoles.DIRECTOR )
   update(@Param('id') id: string, @Body() updateManagerDto: UpdateManagerDto) {
     return this.managersService.update(id, updateManagerDto);
   }
