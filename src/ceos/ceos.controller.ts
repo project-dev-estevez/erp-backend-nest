@@ -7,12 +7,13 @@ import { Auth } from 'src/auth/decorators';
 import { ValidRoles } from 'src/auth/interfaces';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 
-@ApiTags('CEOS')
+@ApiTags('Ceos')
 @Controller('ceos')
 export class CeosController {
   constructor(private readonly ceosService: CeosService) {}
 
   @Post()
+  @Auth( ValidRoles.CEO )
   create(@Body() createCeoDto: CreateCeoDto) {
     return this.ceosService.create(createCeoDto);
   }
