@@ -17,6 +17,9 @@ export class Enterprise {
     )
     ceo: User;
 
+    @Column('uuid')
+    ceoId?: string;
+
     @OneToMany(
         () => Direction,
         direction => direction.id
