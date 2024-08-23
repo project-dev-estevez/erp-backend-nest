@@ -19,13 +19,16 @@ export class EnterprisesService {
 
   async create(createEnterpriseDto: CreateEnterpriseDto) {
 
-    const { name, ceoId } = createEnterpriseDto;
+    const { name, ceoId, address, phoneNumber, rfc } = createEnterpriseDto;
 
     try{
 
       const enterprise = this.enterpriseRepository.create({
         name,
-        ceo: { id: ceoId }
+        ceo: { id: ceoId },
+        address,
+        phoneNumber,
+        rfc
       });
 
       await this.enterpriseRepository.save( enterprise );

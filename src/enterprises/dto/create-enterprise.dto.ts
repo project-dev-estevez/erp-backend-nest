@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsUUID, MaxLength, MinLength } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, IsUUID, MaxLength, MinLength } from "class-validator";
 
 export class CreateEnterpriseDto {
 
@@ -11,5 +11,21 @@ export class CreateEnterpriseDto {
     @IsUUID()
     @IsNotEmpty()
     ceoId: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @MinLength(5)
+    @MaxLength(150)
+    address: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @MinLength(10)
+    phoneNumber: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @MinLength(10)
+    rfc: string;
     
 }

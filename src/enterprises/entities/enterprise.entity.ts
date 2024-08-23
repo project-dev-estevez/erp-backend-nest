@@ -11,6 +11,15 @@ export class Enterprise {
     @Column('text')
     name: string;
 
+    @Column('text')
+    address: string;
+
+    @Column('text')
+    phoneNumber: string;
+
+    @Column('text')
+    rfc: string;
+
     @ManyToOne(
         () => User, 
         user => user.enterprises
