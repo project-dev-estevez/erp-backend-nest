@@ -1,6 +1,7 @@
+import { Area } from "src/areas/entities/area.entity";
 import { User } from "src/auth/entities/user.entity";
 import { Direction } from "src/directions/entities/direction.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('departments')
 export class Department {
@@ -22,6 +23,12 @@ export class Department {
         direction => direction.id
     )
     direction!: Direction;
+
+    @OneToMany(
+        () => Area,
+        area => area.id
+    )
+    area!: Area;
 
     @CreateDateColumn({
         type: 'timestamp',

@@ -3,6 +3,7 @@ import { ResetToken } from "./reset-token.entity";
 import { Enterprise } from "src/enterprises/entities/enterprise.entity";
 import { Direction } from "src/directions/entities/direction.entity";
 import { Department } from "src/departments/entities/department.entity";
+import { Area } from "src/areas/entities/area.entity";
 
 @Entity('users')
 export class User {
@@ -43,6 +44,18 @@ export class User {
         enterprise => enterprise.ceo
     )
     enterprises: Enterprise[];
+
+    @OneToMany(
+        () => Area,
+        area => area.leader
+    )
+    leader: Area[];
+
+    @OneToMany(
+        () => Area,
+        area => area.coordinator
+    )
+    coordinator: Area[];
 
     @OneToMany(
         () => Direction,
