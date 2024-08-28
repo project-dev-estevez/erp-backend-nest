@@ -93,6 +93,6 @@ export class EnterprisesService {
     const deleteResponse = await this.enterpriseRepository.softDelete( id );
 
     if( !deleteResponse.affected )
-      throw new NotFoundException(`Enterprise whit ID:${id} not found`);
+      throw new NotFoundException(`Enterprise with ID:${id} not found`);
   }
 }
