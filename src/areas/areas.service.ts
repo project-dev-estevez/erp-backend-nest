@@ -60,7 +60,7 @@ export class AreasService {
     });
 
     if(!area)
-      throw new NotFoundException(`Area whit ID:${id} not found`);
+      throw new NotFoundException(`Area with ID:${id} not found`);
 
     try {
       await this.areaRepository.save(area);
