@@ -1,6 +1,7 @@
 import { User } from "src/auth/entities/user.entity";
 import { Department } from "src/departments/entities/department.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Employee } from "src/employees/entities/employee.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('areas')
 export class Area {
@@ -13,7 +14,7 @@ export class Area {
 
     @ManyToOne(
         () => User,
-        user => user.coordinator
+        user => user.id
     )
     coordinator: User;
 
@@ -22,7 +23,7 @@ export class Area {
 
     @ManyToOne(
         () => User,
-        user => user.leader
+        user => user.id
     )
     leader: User;
 
@@ -40,6 +41,12 @@ export class Area {
 
     @Column('uuid')
     departmentId: string;
+
+    @OneToMany(
+        () => Employee,
+        employee => employee.id
+    )
+    employee: Employee;
 
     @CreateDateColumn({
         type: 'timestamp',
