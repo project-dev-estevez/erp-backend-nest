@@ -1,5 +1,6 @@
 import { User } from "src/auth/entities/user.entity";
 import { Direction } from "src/directions/entities/direction.entity";
+import { Project } from "src/projects/entities/project.entity";
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('enterprises')
@@ -25,6 +26,13 @@ export class Enterprise {
         user => user.enterprises
     )
     ceo: User;
+
+    @OneToMany(
+        () => Project,
+        project => project.id
+    )
+    project: Project;
+
 
     @Column('uuid')
     ceoId?: string;
