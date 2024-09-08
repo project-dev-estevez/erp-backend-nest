@@ -97,6 +97,11 @@ export class ManagersService {
     if( !manager )
       throw new NotFoundException(`Manager with ID:${id} not found`);
 
+    if (updateManagerDto.password) {
+      const salt = await bcrypt.genSalt();
+      manager.password = await bcrypt.hash(updateManagerDto.password, salt);
+    }
+
     try {
       await this.userRepository.save( manager );
       return manager;

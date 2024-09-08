@@ -94,6 +94,11 @@ export class CeosService {
     if(!ceo)
       throw new NotFoundException(`Ceo with ID:${id} not found`);
 
+    if (updateCeoDto.password) {
+      const salt = await bcrypt.genSalt();
+      ceo.password = await bcrypt.hash(updateCeoDto.password, salt);
+    }
+
     try {
       await this.userRepository.save(ceo);
       return ceo;
