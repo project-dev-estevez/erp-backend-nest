@@ -1,11 +1,8 @@
 export const ENTERPRISES_DATA = [
     {
-        name: 'Empresa 1'
-    },
-    {
-        name: 'Empresa 2'
-    },
-    {
-        name: 'Empresa 3'
+        name: 'Estevez.Jor',
+        address: 'Cra 6 #7-21',
+        phoneNumber: '3217816922',
+        rfc: '123jk12h3hjkh32'
     }
 ];
