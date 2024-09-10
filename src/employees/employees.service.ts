@@ -6,7 +6,6 @@ import { Employee } from './entities/employee.entity';
 import { Repository } from 'typeorm';
 import { handleDBErrors } from 'src/common/helpers/db-error-handler.helper';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
-import e from 'express';
 
 @Injectable()
 export class EmployeesService {
