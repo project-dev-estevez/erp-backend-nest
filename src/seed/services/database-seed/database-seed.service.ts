@@ -1,10 +1,14 @@
 import { faker } from '@faker-js/faker';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Area } from 'src/areas/entities/area.entity';
 import { User } from 'src/auth/entities/user.entity';
+import { Customer } from 'src/customers/entities/customer.entity';
 import { Department } from 'src/departments/entities/department.entity';
 import { Direction } from 'src/directions/entities/direction.entity';
+import { Employee } from 'src/employees/entities/employee.entity';
 import { Enterprise } from 'src/enterprises/entities/enterprise.entity';
+import { Project } from 'src/projects/entities/project.entity';
 import { initialData } from 'src/seed/data/seed-data';
 import { Connection, DataSource, Repository } from 'typeorm';
 
@@ -20,7 +24,15 @@ export class DatabaseSeedService {
       @InjectRepository( Direction )
       private readonly directionRepository: Repository<Direction>,
       @InjectRepository( Department )
-      private readonly departmentRepository: Repository<Department>
+      private readonly departmentRepository: Repository<Department>,
+      @InjectRepository( Area )
+      private readonly areaRepository: Repository<Area>,
+      @InjectRepository( Employee )
+      private readonly employeeRepository: Repository<Employee>,
+      @InjectRepository( Customer )
+      private readonly customerRepository: Repository<Customer>,
+      @InjectRepository( Project )
+      private readonly projectRepository: Repository<Project>,
   ){}
 
 
@@ -117,7 +129,7 @@ export class DatabaseSeedService {
     const departments: Department[] = [];
 
     for (let i = 0; i < quantity; i++) {
-      const randomName = faker.internet.userName(); // Genera un nombre aleatorio para el departamento
+      const randomName = faker.commerce.department() // Genera un nombre aleatorio para el departamento
 
       departments.push( this.departmentRepository.create(
         { name: randomName, direction: { id: directionID } }
@@ -125,6 +137,75 @@ export class DatabaseSeedService {
     }
 
     await this.departmentRepository.save(departments);
+
+    return departments[0].id;
+  }
+  async insertAreas(departmentID: string, coordinator: string, quantity: number = 10){
+    const areas: Area[] = [];
+
+    for (let i = 0; i < quantity; i++) {
+      const randomName = faker.person.jobArea() // Genera un nombre aleatorio para el área
+
+      areas.push(this.areaRepository.create(
+        { name: randomName, coordinator: { id: coordinator }, department: { id: departmentID } }
+      ));
+    }
+
+    await this.areaRepository.save(areas);
+
+    return areas[0].id;
+
+  }
+
+  async insertEmployees(areaID: string, quantity: number = 10){
+    const employees: Employee[] = [];
+
+    for (let i = 0; i < quantity; i++) {
+      const randomName = faker.person.jobArea() // Genera un nombre aleatorio para el empleado
+      const randomPosition = faker.person.jobTitle() // Genera una posición aleatoria para el empleado
+
+      employees.push(this.employeeRepository.create(
+        { name: randomName, position: randomPosition, area: { id: areaID } }
+      ));
+    }
+
+    await this.employeeRepository.save(employees);
+
+    return employees[0].id;
+  
+  }
+
+  async insertCustomers(quantity: number = 10) {
+    const customers: Customer[] = [];
+
+    for (let i = 0; i < quantity; i++) {
+      const randomName = faker.company.name() // Genera un nombre aleatorio para el cliente
+      const randomRFC = faker.commerce.isbn(13) // Genera un RFC aleatorio para el cliente
+      const randomEmail = faker.internet.email(); // Genera un email aleatorio para el cliente
+      const randomPhoneNumber = faker.phone.number() // Genera un número de teléfono aleatorio para el cliente
+
+      customers.push(this.customerRepository.create(
+        { name: randomName, rfc: randomRFC, email: randomEmail, phoneNumber: randomPhoneNumber }
+      ));
+    }
+
+    await this.customerRepository.save(customers);
+
+    return customers[0].id;
+  }
+
+  async insertProjects(customerID: string, enterpriseID: string, quantity: number = 10) {
+    const projects: Project[] = [];
+
+    for (let i = 0; i < quantity; i++) {
+      const randomName = faker.company.catchPhrase() // Genera un nombre aleatorio para el proyecto
+      projects.push(this.projectRepository.create(
+        { name: randomName, customer: { id: customerID }, enterprise: { id: enterpriseID } }
+      ));
+    }
+    await this.projectRepository.save(projects);
+    
+    return projects[0].id;
   }
 
 }
