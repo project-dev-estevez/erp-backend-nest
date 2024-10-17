@@ -3,12 +3,12 @@ name: 'Deploy to Cloud Run'
 on:
   push:
     branches:
-      - dev
+      - feature/EVZ-327-backend-nest
 
 env:
   PROJECT_ID: 'estevez-jor-agile-dev' # TODO: update to your Google Cloud project ID
   REGION: 'us-central1' # TODO: update to your region
-  SERVICE: 'deploy-tutorial' # TODO: update to your service name
+  SERVICE: 'backend-nest' # TODO: update to your service name
 
 jobs:
   deploy:
