@@ -1,4 +1,4 @@
-name: 'Deploy to Cloud Run Test'
+name: 'Deploy to Cloud Run Testing'
 
 on:
   push:
