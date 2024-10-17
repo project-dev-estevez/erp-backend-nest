@@ -13,6 +13,7 @@ services:
     container_name: estevezdb
     volumes:
       - ./postgres:/var/lib/postgresql/data
+      
 
 
 # ***** MONGO ***** ***** MONGO ***** ***** MONGO ***** ***** MONGO ***** ***** MONGO ***** ***** MONGO ***** #
