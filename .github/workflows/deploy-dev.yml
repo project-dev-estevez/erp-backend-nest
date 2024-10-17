@@ -3,7 +3,7 @@ name: 'Deploy to Cloud Run Test'
 on:
   push:
     branches:
-      - feature/EVZ-327-backend-nest
+      - feature/EVZ-327-backend-cloudrun
 
 env:
   PROJECT_ID: 'estevez-jor-agile-dev' # TODO: update to your Google Cloud project ID
