@@ -45,3 +45,12 @@ jobs:
       - name: 'Show output'
         run: |-
           echo ${{ steps.deploy.outputs.url }}
+
+      - name: 'Connect to PostgreSQL'
+        run: node client.js
+        env: 
+          DB_PASSWORD: postgres
+          DB_NAME: EstevezDB
+          DB_HOST: 35.224.241.60
+          DB_PORT: 5432
+          DB_USERNAME: postgres
