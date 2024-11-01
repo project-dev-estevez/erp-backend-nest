@@ -32,6 +32,31 @@ jobs:
         with:
           workload_identity_provider: 'projects/613099445165/locations/global/workloadIdentityPools/githubs-auth/providers/github-action' # TODO: replace with your workload identity provider
           service_account: 'github-action@estevez-jor-agile-dev.iam.gserviceaccount.com'
+
+      - name: 'Setup Node.js'
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+  
+      - name: 'Install Dependencies'
+        id: install
+        run: npm ci
+
+      - name: 'Build and push Docker image'
+        run: | 
+          gcloud builds submit --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}
+
+      - name: 'Connect to PostgreSQL'
+        run: node client.js
+        env: 
+          DB_PASSWORD: postgres
+          DB_NAME: EstevezDB
+          DB_HOST: 35.224.241.60
+          DB_PORT: 5432
+          DB_USERNAME: postgres
+          JWT_SECRET: tHYIsS3cr3tAnd1tIsV3ryL0ng
       
       - name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@v2' # google-github-actions/deploy-cloudrun@v2
@@ -45,13 +70,3 @@ jobs:
       - name: 'Show output'
         run: |-
           echo ${{ steps.deploy.outputs.url }}
-
-      - name: 'Connect to PostgreSQL'
-        run: node client.js
-        env: 
-          DB_PASSWORD: postgres
-          DB_NAME: EstevezDB
-          DB_HOST: 35.224.241.60
-          DB_PORT: 5432
-          DB_USERNAME: postgres
-          JWT_SECRET: tHYIsS3cr3tAnd1tIsV3ryL0ng
