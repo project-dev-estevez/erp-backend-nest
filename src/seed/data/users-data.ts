@@ -41,6 +41,14 @@ export const USERS_DATA = [
         fullName: 'Gerente Gerente',
         password: bcrypt.hashSync('Estevez.gerente*', 10),
         roles: ['manager']
+    },
+
+    // Coordinador
+    {
+        email: 'coordinador.estevez@estevezjor.mx',
+        fullName: 'Coordinador',
+        password: bcrypt.hashSync('Estevez.coordinador*', 10),
+        roles: ['coordinator']
     }
 
 ];
