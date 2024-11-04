@@ -18,6 +18,21 @@ jobs:
       contents: 'read'
       id-token: 'write'
 
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: EstevezDB
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: 'Checkout'
         uses: 'actions/checkout@v4' # actions/checkout@v4
@@ -37,26 +52,33 @@ jobs:
         id: setup-node
         uses: actions/setup-node@v4
         with:
-          node-version-file: .node-version
-          cache: npm
+          node-version: '20'
   
       - name: 'Install Dependencies'
-        id: install
-        run: npm ci
+        run: npm install
 
       - name: 'Build and push Docker image'
         run: | 
           gcloud builds submit --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}
 
-      - name: 'Connect to PostgreSQL'
-        run: node client.js
-        env: 
-          DB_PASSWORD: postgres
-          DB_NAME: EstevezDB
+      - name: 'Run tests'
+        env:
           DB_HOST: 35.224.241.60
           DB_PORT: 5432
           DB_USERNAME: postgres
-          JWT_SECRET: tHYIsS3cr3tAnd1tIsV3ryL0ng
+          DB_PASSWORD: postgres
+          DB_NAME: EstevezDB
+        run: npm run test
+
+      #- name: 'Connect to PostgreSQL'
+      #  run: node client.js
+      #  env: 
+      #    DB_PASSWORD: postgres
+      #    DB_NAME: EstevezDB
+      #    DB_HOST: 35.224.241.60
+      #    DB_PORT: 5432
+      #    DB_USERNAME: postgres
+      #    JWT_SECRET: tHYIsS3cr3tAnd1tIsV3ryL0ng
       
       - name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@v2' # google-github-actions/deploy-cloudrun@v2
